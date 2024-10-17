@@ -7,7 +7,11 @@ public class Main {
     public static void printSudoku(int[][] grid) {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                System.out.print(grid[i][j] + " ");
+                if (grid[i][j] > 0) {
+                    System.out.print(grid[i][j] + " ");
+                } else {
+                    System.out.print(". ");
+                }
                 if (j % 3 == 2 && j < 8) System.out.print("| ");
             }
             System.out.println();
@@ -64,7 +68,7 @@ public class Main {
                 jtemp--;
             }
         } while (defaultGrid[itemp][jtemp] > 0);
-        return solveSudoku(grid, itemp, jtemp);
+         return solveSudoku(grid, itemp, jtemp);
     }
 
     public static void main(String[] args) {
@@ -77,6 +81,7 @@ public class Main {
                         {0,5,0,6,0,0,0,0,0},
                         {3,0,0,0,0,0,0,0,5},
                         {0,9,0,7,0,0,0,8,2}};
+
          */
 
         int[][] grid = {{0,8,3,9,0,5,0,0,0},
@@ -88,6 +93,41 @@ public class Main {
                         {0,0,0,0,0,3,0,0,7},
                         {0,0,9,8,7,6,0,0,1},
                         {0,0,0,0,0,0,2,0,8}};
+
+
+
+        System.out.println("Hi! This is my SudokuSolver! Press 'y' if you'd like to input your own sudoku! (or anything else if not)");
+        Scanner sc = new Scanner(System.in);
+        String reply = sc.nextLine();
+        if (reply.toLowerCase().equals("y")) {
+            System.out.println("Please enter your cell values one by one. The unassigned cells are denoted as '0'");
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    System.out.print("g[" + i + "][" + j + "] = ");
+                    int inputValue = sc.nextInt();
+                    while(inputValue > 9 || inputValue < 0) {
+                        System.out.println("Wrong input! The value should be in the range of [0,9]. Type your value again");
+                        inputValue = sc.nextInt();
+                    }
+                    grid[i][j] = inputValue;
+                }
+            }
+        }
+        printSudoku(grid);
+        System.out.println("Is this your Sudoku? (y/n)");
+        reply = sc.next();
+        if (reply.toLowerCase().equals("n")) {
+            System.out.println("Input the cell index in 'i,j' format (separated by comma) and then your new value. For example, 1,2 and then 3. If you don't want to change anything, type 'y'");
+            String input = sc.next();
+            while (input.charAt(0) != 'y') {
+                int i = Integer.parseInt(input.substring(0,1));
+                int j = Integer.parseInt(input.substring(2,3));
+                int value = sc.nextInt();
+                grid[i][j] = value;
+                printSudoku(grid); System.out.println("Input the cell index in 'i,j' format (separated by comma) and then your new value. For example, 1,2 and then 3. If you don't want to change anything, type 'y'");
+                input = sc.next();
+            }
+        }
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
