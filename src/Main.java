@@ -21,41 +21,41 @@ public class Main {
     }
     public static boolean isValid(int[][] grid, int r, int c, int num) {
         for (int k = 0; k < 9; k++) {
-            if (grid[r][k] == num) return false;
-            if (grid[k][c] == num) return false;
-            int tempRow = 3 * (r / 3) + k / 3;
-            int tempColumn = 3 * (c / 3) + k % 3;
-            if (grid[tempRow][tempColumn] == num) return false;
+            if (grid[r][k] == num) return false; // row check
+            if (grid[k][c] == num) return false; // column check
+            int tempRow = 3 * (r / 3) + k / 3;                      //
+            int tempColumn = 3 * (c / 3) + k % 3;                   // square check
+            if (grid[tempRow][tempColumn] == num) return false;     //
         }
         return true;
     }
 
     public static int[][] solveSudoku(int[][] grid, int i, int j) {
-        if (defaultGrid[i][j] > 0) {
-            if (i == 8 && j == 8) {
+        if (defaultGrid[i][j] > 0) { // check if value is assigned from the beginning
+            if (i == 8 && j == 8) { // end of the grid
                 return grid;
             }
             if (j < 8) {
-                return solveSudoku(grid, i, ++j);
-            }
-            return solveSudoku(grid, ++i, 0);
+                return solveSudoku(grid, i, j + 1);
+            } // end of a row
+            return solveSudoku(grid, i + 1, 0);
         }
         int initialValue = grid[i][j];
         for (int k = initialValue; k <= 9; k++) {
             if (isValid(grid, i, j, k)) {
                 grid[i][j] = k;
-                printSudoku(grid);
+                //printSudoku(grid);
                 break;
             }
         }
-        if (grid[i][j] > initialValue) {
+        if (grid[i][j] > initialValue) { // if the cell value changes
             if (i == 8 && j == 8) {
                 return grid;
             }
             if (j < 8) {
-                return solveSudoku(grid, i, ++j);
+                return solveSudoku(grid, i, j + 1);
             }
-            return solveSudoku(grid, ++i, 0);
+            return solveSudoku(grid, i + 1, 0);
         }
         grid[i][j] = 0;
         int itemp = i;
@@ -67,32 +67,21 @@ public class Main {
             } else {
                 jtemp--;
             }
-        } while (defaultGrid[itemp][jtemp] > 0);
+        } while (defaultGrid[itemp][jtemp] > 0); // looking for a cell that wasn't assigned from the beginning
          return solveSudoku(grid, itemp, jtemp);
     }
 
     public static void main(String[] args) {
-        /*int[][] grid = {{0,0,0,0,0,3,0,0,0},
-                        {4,0,0,0,0,2,0,0,1},
-                        {8,0,7,0,9,0,6,0,0},
-                        {2,0,0,0,0,0,0,9,0},
-                        {0,0,5,0,0,0,7,0,0},
-                        {0,8,0,0,0,4,5,0,0},
-                        {0,5,0,6,0,0,0,0,0},
-                        {3,0,0,0,0,0,0,0,5},
-                        {0,9,0,7,0,0,0,8,2}};
 
-         */
-
-        int[][] grid = {{0,8,3,9,0,5,0,0,0},
-                        {0,0,0,3,0,0,8,0,0},
-                        {0,0,1,0,4,0,9,2,0},
-                        {0,0,4,6,0,0,0,0,0},
-                        {0,7,0,5,0,0,0,6,2},
-                        {0,0,0,0,0,0,5,7,0},
-                        {0,0,0,0,0,3,0,0,7},
-                        {0,0,9,8,7,6,0,0,1},
-                        {0,0,0,0,0,0,2,0,8}};
+        int[][] grid = {{0,3,0,4,0,0,1,9,0},
+                        {0,0,0,0,1,9,0,6,0},
+                        {0,0,9,7,0,5,0,0,0},
+                        {0,0,0,0,0,1,4,0,0},
+                        {0,6,8,9,0,4,2,3,0},
+                        {0,0,1,8,0,0,0,0,0},
+                        {0,0,0,2,0,8,3,0,0},
+                        {0,1,0,5,9,0,0,0,0},
+                        {0,8,5,0,0,6,0,7,0}};
 
 
 
