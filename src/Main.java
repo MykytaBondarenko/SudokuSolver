@@ -1,5 +1,7 @@
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import java.util.Scanner;
+
 public class Main {
     public static int[][] defaultGrid = new int[9][9];
     public static void printSudoku(int[][] grid) {
@@ -28,43 +30,41 @@ public class Main {
         if (defaultGrid[i][j] > 0) {
             if (i == 8 && j == 8) {
                 return grid;
-            } else if (j < 8) {
+            }
+            if (j < 8) {
                 return solveSudoku(grid, i, ++j);
-            } else {
-                return solveSudoku(grid, ++i, 0);
             }
-        } else {
-            int initialValue = grid[i][j];
-            for (int k = initialValue; k <= 9; k++) {
-                if (isValid(grid, i, j, k)) {
-                    grid[i][j] = k;
-                    printSudoku(grid);
-                    break;
-                }
-            }
-            if (grid[i][j] > initialValue) {
-                if (i == 8 && j == 8) {
-                    return grid;
-                } else if (j < 8) {
-                    return solveSudoku(grid, i, ++j);
-                } else {
-                    return solveSudoku(grid, ++i, 0);
-                }
-            } else {
-                grid[i][j] = 0;
-                int itemp = i;
-                int jtemp = j;
-                do {
-                    if (jtemp == 0) {
-                        jtemp = 8;
-                        itemp--;
-                    } else {
-                        jtemp--;
-                    }
-                } while (defaultGrid[itemp][jtemp] > 0);
-                return solveSudoku(grid, itemp, jtemp);
+            return solveSudoku(grid, ++i, 0);
+        }
+        int initialValue = grid[i][j];
+        for (int k = initialValue; k <= 9; k++) {
+            if (isValid(grid, i, j, k)) {
+                grid[i][j] = k;
+                printSudoku(grid);
+                break;
             }
         }
+        if (grid[i][j] > initialValue) {
+            if (i == 8 && j == 8) {
+                return grid;
+            }
+            if (j < 8) {
+                return solveSudoku(grid, i, ++j);
+            }
+            return solveSudoku(grid, ++i, 0);
+        }
+        grid[i][j] = 0;
+        int itemp = i;
+        int jtemp = j;
+        do {
+            if (jtemp == 0) {
+                jtemp = 8;
+                itemp--;
+            } else {
+                jtemp--;
+            }
+        } while (defaultGrid[itemp][jtemp] > 0);
+        return solveSudoku(grid, itemp, jtemp);
     }
 
     public static void main(String[] args) {
@@ -77,18 +77,17 @@ public class Main {
                         {0,5,0,6,0,0,0,0,0},
                         {3,0,0,0,0,0,0,0,5},
                         {0,9,0,7,0,0,0,8,2}};
-
          */
 
-        int[][] grid = {{7,0,0,0,0,0,0,0,5},
-                        {0,1,5,0,2,0,0,0,4},
-                        {0,6,0,0,7,0,0,1,2},
-                        {0,0,0,8,1,2,0,0,0},
-                        {2,8,4,7,0,9,0,0,0},
-                        {3,0,0,0,5,4,0,7,8},
-                        {6,0,3,0,0,0,8,4,1},
-                        {0,0,0,0,6,0,5,0,0},
-                        {0,2,0,0,0,8,9,0,0}};
+        int[][] grid = {{0,8,3,9,0,5,0,0,0},
+                        {0,0,0,3,0,0,8,0,0},
+                        {0,0,1,0,4,0,9,2,0},
+                        {0,0,4,6,0,0,0,0,0},
+                        {0,7,0,5,0,0,0,6,2},
+                        {0,0,0,0,0,0,5,7,0},
+                        {0,0,0,0,0,3,0,0,7},
+                        {0,0,9,8,7,6,0,0,1},
+                        {0,0,0,0,0,0,2,0,8}};
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
